@@ -31,4 +31,15 @@ struct BlogFrontendController {
 		])
 	}
 
+	func postView(req: Request) throws -> EventLoopFuture<Response> {
+		let slug = req.url.path.trimmingCharacters(in: .init(charactersIn: "/"))
+		guard let post = posts.first(where: { $0.slug == slug }) else {
+			return req.eventLoop.future(req.redirect(to: "/"))
+		}
+		return req.leaf.render(template: "post", context: [
+			"title": "\(post.title)",
+			"post": post.leafData
+		]).encodeResponse(for: req)
+	}
+
 }
