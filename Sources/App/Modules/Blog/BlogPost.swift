@@ -14,7 +14,7 @@ struct BlogPost {
 	let image: String
 	let excerpt: String
 	let date: Date
-	let category: String?
+	public let category: String?
 	let content: String
 }
 
