@@ -6,40 +6,46 @@
 //
 
 import LoremSwiftum
+import Fluent
+import Leaf
 import Foundation
 import Vapor
 
 struct BlogFrontendController {
 
-	var posts: [BlogPost] = {
-		stride(from: 0, to: 10, by: 1).map { index in
-			let title = Lorem.title
-			return BlogPost(title: title,
-							slug: title.lowercased().replacingOccurrences(of: " ", with: "-"),
-							image: "/images/posts/\(String(format: "%02d", index + 1)).jpg",
-							excerpt: Lorem.sentence,
-							date: Date().addingTimeInterval(-Double.random(in: 0...(86400 * 60))),
-							category: Bool.random() ? Lorem.word.capitalized : nil,
-							content: Lorem.paragraph)
-		}.sorted() { $0.date > $1.date }
-	}()
-
 	func blogView(req: Request) throws -> EventLoopFuture<View> {
-		return req.leaf.render(template: "blog", context: [
-			"title": "myPage - Blog",
-			"posts": .array(posts.map(\.leafData))
-		])
+		BlogPostModel.query(on: req.db)
+			.sort(\.$date, .descending)
+			.with(\.$category)
+			.all()
+			.mapEach(\.leafData)
+			.flatMap {
+				req.leaf.render(template: "blog", context: [
+					"title": .string("myPage - Blog"),
+					"posts": .array($0),
+				])
+			}
 	}
 
 	func postView(req: Request) throws -> EventLoopFuture<Response> {
 		let slug = req.url.path.trimmingCharacters(in: .init(charactersIn: "/"))
-		guard let post = posts.first(where: { $0.slug == slug }) else {
-			return req.eventLoop.future(req.redirect(to: "/"))
-		}
-		return req.leaf.render(template: "post", context: [
-			"title": "\(post.title)",
-			"post": post.leafData
-		]).encodeResponse(for: req)
+
+		return BlogPostModel.query(on: req.db)
+			.filter(\.$slug == slug)
+			.with(\.$category)
+			.first()
+			.flatMap { post in
+				guard let post = post else {
+					return req.eventLoop.future(req.redirect(to: "/"))
+				}
+				let context: LeafRenderer.Context = [
+					"title": .string("myPage - \(post.title)"),
+					"post": post.leafData,
+				]
+				return req.leaf.render(template: "post", context: context)
+					.encodeResponse(for: req)
+			}
 	}
+
 
 }
