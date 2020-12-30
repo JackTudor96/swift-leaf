@@ -14,7 +14,7 @@ struct BlogPost {
 	let image: String
 	let excerpt: String
 	let date: Date
-	public let category: String?
+	let category: String?
 	let content: String
 }
 
@@ -31,3 +31,4 @@ extension BlogPost: LeafDataRepresentable {
 		])
 	}
 }
+

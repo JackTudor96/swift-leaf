@@ -21,11 +21,14 @@ public func configure(_ app: Application) throws {
 		LeafRenderer.Option.caching = .bypass
 	}
 	app.views.use(.leaf)
-	let routers: [RouteCollection] = [
-		FrontendRouter(),
-		BlogRouter()
+
+	let modules: [Module] = [
+		FrontendModule(),
+		BlogModule(),
 	]
-	for router in routers {
-		try router.boot(routes: app.routes)
+	for module in modules {
+		try module.configure(app)
 	}
+
+	try app.autoMigrate().wait()
 }

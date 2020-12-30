@@ -8,7 +8,6 @@
 import Vapor
 import Fluent
 
-
 final class BlogCategoryModel: Model {
 
 	static let schema = "blog_categories"
@@ -23,7 +22,7 @@ final class BlogCategoryModel: Model {
 	var title: String
 
 	@Children(for: \.$category)
-	var posts: [BlogPost]
+	var posts: [BlogPostModel]
 
 	init() { }
 
