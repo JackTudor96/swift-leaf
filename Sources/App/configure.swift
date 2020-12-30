@@ -7,7 +7,9 @@ import FluentSQLiteDriver
 public func configure(_ app: Application) throws {
 
 	app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
-
+	app.sessions.use(.fluent)
+	app.migrations.add(SessionRecord.migration)
+	app.middleware.use(app.sessions.middleware)
 	app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 	app.middleware.use(ExtendPathMiddleware())
 	let detected = LeafEngine.rootDirectory ?? app.directory.viewsDirectory
@@ -23,6 +25,7 @@ public func configure(_ app: Application) throws {
 	app.views.use(.leaf)
 
 	let modules: [Module] = [
+		UserModule(),
 		FrontendModule(),
 		BlogModule(),
 	]

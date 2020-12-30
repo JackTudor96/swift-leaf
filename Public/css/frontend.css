@@ -102,6 +102,40 @@ header h1 {
 	color: #000;
 }
 
+label {
+	display: block;
+	margin-bottom: 8px;
+}
+input {
+	display: block;
+	padding: 8px;
+	margin-bottom: 16px;
+	font-size: 16px;
+}
+input.field {
+	background: #fff;
+	color: #000;
+}
+input.submit {
+	border-width: 4px;
+	border-style: solid;
+	padding: 8px 16px;
+}
+input.submit:hover {
+	cursor: pointer;
+}
+
+input.submit {
+	color: #fff;
+	background: #2B7DF6;
+	border-color: #2B7DF6;
+}
+
+input.submit:hover {
+	background: #555BCF;
+	border-color: #555BCF;
+}
+
 @media (prefers-color-scheme: dark) {
 	body {
 		background: #222;
@@ -124,5 +158,18 @@ header h1 {
 	}
 	header h1 {
 		color: #fff;
+	}
+	input.field {
+		background: #000;
+		color: #fff;
+	}
+	input.submit {
+		color: #fff;
+		background: #3386F7;
+		border-color: #3386F7;
+	}
+	input.submit:hover {
+		background: #5B61DE;
+		border-color: #5B61DE;
 	}
 }

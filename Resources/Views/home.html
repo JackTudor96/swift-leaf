@@ -5,6 +5,12 @@
 <section class="wrapper">
 	<p>#(message)</p>
 </section>
+<section class="wrapper">
+	#if(isLoggedIn):
+	<b>#(email)</b> is logged in <a href="/logout/">Logout</a>
+	#else:
+	<a href="/sign-in/">Sign in</a>
+	#endif
+</section>
 #enddefine
 #inline("index")
-

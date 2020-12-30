@@ -13,5 +13,7 @@ struct FrontendRouter: RouteCollection {
 
 	func boot(routes: RoutesBuilder) throws {
 		routes.get(use: controller.homeView)
+		routes.grouped(UserModelSessionAuthenticator())
+					.get(use: controller.homeView)
 	}
 }
