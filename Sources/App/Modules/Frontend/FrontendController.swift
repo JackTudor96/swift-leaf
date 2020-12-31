@@ -14,7 +14,7 @@ struct FrontendController {
 		if let user = req.auth.get(UserModel.self) {
 			email = user.email
 		}
-		return req.leaf.render(template: "home", context: [
+		return req.leaf.render(template: "Frontend/home", context: [
 			"title": .string("myPage - Home"),
 			"header": .string("Hi there, "),
 			"message": .string("welcome to my awesome page!"),

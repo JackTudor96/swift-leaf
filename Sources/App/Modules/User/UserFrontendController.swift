@@ -12,7 +12,7 @@ import Leaf
 struct UserFrontendController {
 
 	func loginView(req: Request) throws -> EventLoopFuture<View> {
-		return req.leaf.render(template: "User/Frontend/Login", context: [
+		return req.leaf.render(template: "User/Frontend/login", context: [
 			"title": .string("myPage - Sign in"),
 		])
 	}

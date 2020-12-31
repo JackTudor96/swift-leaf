@@ -22,6 +22,23 @@ public func configure(_ app: Application) throws {
 	if !app.environment.isRelease {
 		LeafRenderer.Option.caching = .bypass
 	}
+	let defaultSource = NIOLeafFiles(fileio: app.fileio,
+										limits: .default,
+										sandboxDirectory: detected,
+										viewDirectory: detected,
+										defaultExtension: "html")
+
+	let modulesSource = ModuleViewsLeafSource(rootDirectory: app.directory.workingDirectory,
+											  modulesLocation: "Sources/App/Modules",
+											  viewsFolderName: "Views",
+											  fileExtension: "html",
+											  fileio: app.fileio)
+
+	let multipleSources = LeafSources()
+	try multipleSources.register(using: defaultSource)
+	try multipleSources.register(source: "modules", using: modulesSource)
+
+	LeafEngine.sources = multipleSources
 	app.views.use(.leaf)
 
 	let modules: [Module] = [

@@ -20,7 +20,7 @@ struct BlogFrontendController {
 			.all()
 			.mapEach(\.leafData)
 			.flatMap {
-				req.leaf.render(template: "blog", context: [
+				req.leaf.render(template: "Blog/Frontend/blog", context: [
 					"title": .string("myPage - Blog"),
 					"posts": .array($0),
 				])
@@ -42,7 +42,7 @@ struct BlogFrontendController {
 					"title": .string("myPage - \(post.title)"),
 					"post": post.leafData,
 				]
-				return req.leaf.render(template: "post", context: context)
+				return req.leaf.render(template: "Blog/Frontend/post", context: context)
 					.encodeResponse(for: req)
 			}
 	}
