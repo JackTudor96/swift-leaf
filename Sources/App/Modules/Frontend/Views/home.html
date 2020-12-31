@@ -7,9 +7,11 @@
 </section>
 <section class="wrapper">
 	#if(isLoggedIn):
-	<b>#(email)</b> is logged in <a href="/logout/">Logout</a>
+	<p><b>#(email)</b> is logged in</p>
 	#else:
 	<a href="/sign-in/">Sign in</a>
+	<p><a href="/admin/">Admin</a> &middot;</p>
+	<a href="/logout/">Logout</a>
 	#endif
 </section>
 #enddefine

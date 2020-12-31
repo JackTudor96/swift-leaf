@@ -43,6 +43,7 @@ public func configure(_ app: Application) throws {
 
 	let modules: [Module] = [
 		UserModule(),
+		AdminModule(),
 		FrontendModule(),
 		BlogModule(),
 	]

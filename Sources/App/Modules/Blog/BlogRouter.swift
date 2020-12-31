@@ -14,6 +14,9 @@ struct BlogRouter: RouteCollection {
 	func boot(routes: RoutesBuilder) throws {
 		routes.get("blog", use: controller.blogView)
 		routes.get(.anything, use: controller.postView)
+		let blogAPI = routes.grouped("api", "blog")
+		let categories = blogAPI.grouped("categories")
+		BlogCategoryAPIController().setupListRoute(routes: categories)
 	}
 
 }
