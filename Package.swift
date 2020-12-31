@@ -22,7 +22,13 @@ let package = Package(
 			.product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
 			.product(name: "Leaf", package: "leaf"),
 			.product(name: "LoremSwiftum", package: "LoremSwiftum")
-		]),
+		],
+		exclude: [
+					//"*.html", "*.leaf"
+					"Modules/Blog/Views",
+					"Modules/Frontend/Views",
+					"Modules/User/Views",
+				]),
 		.target(name: "Run", dependencies: ["App"]),
 		.testTarget(name: "AppTests", dependencies: [
 			.target(name: "App"),
